@@ -28,7 +28,7 @@ def test_post_purchase_order_item(test_client):
     }
 
     response = test_client.post(
-        '/purchase_order_items/1/items',
+        '/purchase_orders/1/items',
         data=json.dumps(obj),
         content_type='application/json'
     )
@@ -48,7 +48,7 @@ def test_post_invalid_id(test_client):
     }
 
     response = test_client.post(
-        '/purchase_order_items/1/items',
+        '/purchase_orders/1/items',
         data=json.dumps(obj),
         content_type='application/json'
     )
@@ -64,7 +64,7 @@ def test_post_invalid_description(test_client):
     }
 
     response = test_client.post(
-        '/purchase_order_items/1/items',
+        '/purchase_orders/1/items',
         data=json.dumps(obj),
         content_type='application/json'
     )
@@ -80,7 +80,7 @@ def test_post_invalid_price(test_client):
     }
 
     response = test_client.post(
-        '/purchase_order_items/1/items',
+        '/purchase_orders/1/items',
         data=json.dumps(obj),
         content_type='application/json'
     )
