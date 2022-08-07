@@ -56,3 +56,4 @@ class PurchaseOrdersItems(Resource):
                 })
 
                 return jsonify(po)
+        return jsonify({'message': 'Purchase order de id {} não encontrado'.format(id)})
