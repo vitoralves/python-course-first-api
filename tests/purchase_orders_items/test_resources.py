@@ -39,3 +39,51 @@ def test_post_purchase_order_item(test_client):
     assert response.json['items'][1]['id'] == obj['id']
     assert response.json['items'][1]['description'] == obj['description']
     assert response.json['items'][1]['price'] == obj['price']
+
+
+def test_post_invalid_id(test_client):
+    obj = {
+        'description': 'Item teste',
+        'price': 10.0
+    }
+
+    response = test_client.post(
+        '/purchase_order_items/1/items',
+        data=json.dumps(obj),
+        content_type='application/json'
+    )
+
+    assert response.status_code == 400
+    assert response.json['message']['id'] == 'Informe um id válido'
+
+
+def test_post_invalid_description(test_client):
+    obj = {
+        'id': 2,
+        'price': 10.0
+    }
+
+    response = test_client.post(
+        '/purchase_order_items/1/items',
+        data=json.dumps(obj),
+        content_type='application/json'
+    )
+
+    assert response.status_code == 400
+    assert response.json['message']['description'] == 'Informe uma descrição válida'
+
+
+def test_post_invalid_price(test_client):
+    obj = {
+        'id': 2,
+        'description': 'Item teste'
+    }
+
+    response = test_client.post(
+        '/purchase_order_items/1/items',
+        data=json.dumps(obj),
+        content_type='application/json'
+    )
+
+    assert response.status_code == 400
+    assert response.json['message']['price'] == 'Informe um preço válido'
