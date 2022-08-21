@@ -1,7 +1,7 @@
 from db import db
 
 
-class PurchaseOrderItemsModel(db.Model):
+class PurchaseOrdersItemsModel(db.Model):
     __tablename__ = 'purchase_orders_items'
 
     id = db.Column(db.Integer, primary_key=True)
@@ -16,11 +16,11 @@ class PurchaseOrderItemsModel(db.Model):
         self.purchase_order_id = purchase_order_id
 
     def as_dict(self):
-        return {c.name: getattr(c.name) for c in self.__table__.columns}
+        return {c.name: getattr(self, c.name) for c in self.__table__.columns}
 
     @classmethod
     def find_by_purchase_order_id(cls, _purchase_order_id):
-        return cls.query.filter_by(_purchase_order_id=_purchase_order_id).all()
+        return cls.query.filter_by(purchase_order_id=_purchase_order_id).all()
 
     def save(self):
         db.session.add(self)
