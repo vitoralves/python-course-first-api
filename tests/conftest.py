@@ -4,7 +4,7 @@ from app import create_app
 
 @pytest.fixture(scope='module')
 def test_client():
-    client = create_app()
+    client = create_app('testing')
 
     with client.test_client() as testing_client:
         with client.app_context():
