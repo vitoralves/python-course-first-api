@@ -21,51 +21,31 @@ def test_get_items_by_purchase_order_id_not_found(test_client):
         id)
 
 
-def test_post_purchase_order_item(test_client):
+def test_post_purchase_order_item(test_client, seed_db):
     obj = {
-        'id': 2,
         'description': 'Item teste',
         'price': 10.0
     }
 
     response = test_client.post(
-        '/purchase_orders/1/items',
+        '/purchase_orders/{}/items'.format(seed_db['purchase_order'].id),
         data=json.dumps(obj),
         content_type='application/json'
     )
 
     assert response.status_code == 200
-    assert response.json['id'] == 1
-    assert len(response.json['items']) == 2
-    assert response.json['items'][1]['id'] == obj['id']
-    assert response.json['items'][1]['description'] == obj['description']
-    assert response.json['items'][1]['price'] == obj['price']
+    assert response.json['id'] is not None
+    assert response.json['description'] == obj['description']
+    assert response.json['price'] == obj['price']
 
 
-def test_post_invalid_id(test_client):
+def test_post_invalid_description(test_client, seed_db):
     obj = {
-        'description': 'Item teste',
         'price': 10.0
     }
 
     response = test_client.post(
-        '/purchase_orders/1/items',
-        data=json.dumps(obj),
-        content_type='application/json'
-    )
-
-    assert response.status_code == 400
-    assert response.json['message']['id'] == 'Informe um id válido'
-
-
-def test_post_invalid_description(test_client):
-    obj = {
-        'id': 2,
-        'price': 10.0
-    }
-
-    response = test_client.post(
-        '/purchase_orders/1/items',
+        '/purchase_orders/{}/items'.format(seed_db['purchase_order'].id),
         data=json.dumps(obj),
         content_type='application/json'
     )
@@ -74,14 +54,13 @@ def test_post_invalid_description(test_client):
     assert response.json['message']['description'] == 'Informe uma descrição válida'
 
 
-def test_post_invalid_price(test_client):
+def test_post_invalid_price(test_client, seed_db):
     obj = {
-        'id': 2,
         'description': 'Item teste'
     }
 
     response = test_client.post(
-        '/purchase_orders/1/items',
+        '/purchase_orders/{}/items'.format(seed_db['purchase_order'].id),
         data=json.dumps(obj),
         content_type='application/json'
     )
@@ -91,9 +70,8 @@ def test_post_invalid_price(test_client):
 
 
 def test_post_purchase_order_invalid(test_client):
-    id = 99
+    id = 99999
     obj = {
-        'id': 2,
         'description': 'Item teste',
         'price': 10.0
     }

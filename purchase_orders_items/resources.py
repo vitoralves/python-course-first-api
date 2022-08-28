@@ -20,10 +20,13 @@ class PurchaseOrdersItems(Resource):
     )
 
     def get(self, id):
-        purchase_orders_items = PurchaseOrdersItemsModel.find_by_purchase_order_id(
-            id)
+        purchase_order = PurchaseOrderModel.find_by_id(id)
+        if purchase_order:
+            purchase_orders_items = PurchaseOrdersItemsModel.find_by_purchase_order_id(
+                id)
 
-        return [p.as_dict() for p in purchase_orders_items]
+            return [p.as_dict() for p in purchase_orders_items]
+        return jsonify({'message': 'Pedido de id {} não encontrado'.format(id)})
 
     def post(self, id):
         purchase_order = PurchaseOrderModel.find_by_id(id)
