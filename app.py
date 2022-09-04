@@ -1,5 +1,6 @@
 from flask import Flask
 from flask_restful import Api
+from flask_migrate import Migrate
 from db import db
 
 from purchase_orders.resources import PurchaseOrders, PurchaseOrderById
@@ -19,6 +20,8 @@ def create_app(env):
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
     db.init_app(app)
+
+    Migrate(app, db)
 
     api.add_resource(PurchaseOrders, '/purchase_orders')
     api.add_resource(PurchaseOrderById, '/purchase_orders/<int:id>')
