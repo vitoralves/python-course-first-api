@@ -9,7 +9,7 @@ class PurchaseOrdersService:
         return [p.as_dict() for p in purchase_orders]
 
     def create(self, **kwargs):
-        purchase_order = PurchaseOrderModel(kwargs)
+        purchase_order = PurchaseOrderModel(**kwargs)
         purchase_order.save()
 
         return purchase_order.as_dict()
