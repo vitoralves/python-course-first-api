@@ -1,3 +1,4 @@
+import os
 from flask import Flask
 from flask_restful import Api
 from flask_migrate import Migrate
@@ -7,16 +8,11 @@ from purchase_orders.resources import PurchaseOrders, PurchaseOrderById
 from purchase_orders_items.resources import PurchaseOrdersItems
 
 
-def create_app(env):
+def create_app():
     app = Flask(__name__)
     api = Api(app)
 
-    database = 'python_course'
-    if env == 'testing':
-        database = 'python_course_test'
-
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:a@localhost:5433/{}'.format(
-        database)
+    app.config['SQLALCHEMY_DATABASE_URI'] = os.environ['DB_URI']
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
     db.init_app(app)
