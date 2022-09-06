@@ -25,6 +25,19 @@ def test_post_purchase_orders(test_client):
     assert response.json['quantity'] == obj['quantity']
 
 
+def test_post_purchase_orders_with_invalid_quanitity(test_client):
+    obj = {'description': 'Purchase Order id 2', 'quantity': 200}
+
+    response = test_client.post(
+        '/purchase_orders',
+        data=json.dumps(obj),
+        content_type='application/json'
+    )
+
+    assert response.status_code == 400
+    assert response.json['message'] == 'A quantidade deve ser entre 50 e 150 itens'
+
+
 def test_post_empty_description(test_client):
     response = test_client.post(
         '/purchase_orders',

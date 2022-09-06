@@ -14,6 +14,8 @@ def seed_db():
 
 
 @pytest.fixture(scope='function', autouse=True)
-def clear_db():
+def clear_db(request):
+    if 'nocleardb' in request.keywords:
+        return
     db.session.query(PurchaseOrderModel).delete()
     db.session.commit()
