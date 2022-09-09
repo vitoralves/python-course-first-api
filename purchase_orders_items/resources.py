@@ -2,9 +2,11 @@ from flask import jsonify
 from flask_restful import Resource, reqparse
 from .model import PurchaseOrdersItemsModel
 from purchase_orders.model import PurchaseOrderModel
+from .services import PurchaseOrdersItemsService
 
 
 class PurchaseOrdersItems(Resource):
+    __service__ = PurchaseOrdersItemsService()
     parser = reqparse.RequestParser()
     parser.add_argument(
         'description',
@@ -20,13 +22,7 @@ class PurchaseOrdersItems(Resource):
     )
 
     def get(self, id):
-        purchase_order = PurchaseOrderModel.find_by_id(id)
-        if purchase_order:
-            purchase_orders_items = PurchaseOrdersItemsModel.find_by_purchase_order_id(
-                id)
-
-            return [p.as_dict() for p in purchase_orders_items]
-        return jsonify({'message': 'Pedido de id {} não encontrado'.format(id)})
+        return self.__service__.find_by_purchase_order_id(id)
 
     def post(self, id):
         purchase_order = PurchaseOrderModel.find_by_id(id)
