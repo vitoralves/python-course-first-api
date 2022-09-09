@@ -25,14 +25,6 @@ class PurchaseOrdersItems(Resource):
         return self.__service__.find_by_purchase_order_id(id)
 
     def post(self, id):
-        purchase_order = PurchaseOrderModel.find_by_id(id)
-        if purchase_order:
-            data = PurchaseOrdersItems.parser.parse_args()
-            data['purchase_order_id'] = id
-
-            purchase_orders_item = PurchaseOrdersItemsModel(**data)
-            purchase_orders_item.save()
-
-            return purchase_orders_item.as_dict()
-
-        return jsonify({'message': 'Purchase order de id {} não encontrado'.format(id)})
+        data = PurchaseOrdersItems.parser.parse_args()
+        data['purchase_order_id'] = id
+        return self.__service__.create(**data)
