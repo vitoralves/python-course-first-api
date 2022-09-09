@@ -7,13 +7,15 @@ class PurchaseOrdersItemsModel(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     description = db.Column(db.String(500), nullable=False)
     price = db.Column(db.Float(precision=2), nullable=False)
+    quantity = db.Column(db.Integer, nullable=False)
     purchase_order_id = db.Column(db.Integer, db.ForeignKey(
         'purchase_order.id'), nullable=False)
 
-    def __init__(self, description, price, purchase_order_id):
+    def __init__(self, description, price, purchase_order_id, quantity):
         self.description = description
         self.price = price
         self.purchase_order_id = purchase_order_id
+        self.quantity
 
     def as_dict(self):
         return {c.name: getattr(self, c.name) for c in self.__table__.columns}
