@@ -1,6 +1,6 @@
 import pytest
 from purchase_orders.services import PurchaseOrdersService
-from purchase_orders.exceptions import QuantityException
+from exceptions.exceptions import QuantityException
 
 
 @pytest.mark.nocleardb

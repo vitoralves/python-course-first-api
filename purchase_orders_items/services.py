@@ -13,7 +13,7 @@ class PurchaseOrdersItemsService:
 
         sum_items = 0
         for poi in purchase_orders_items:
-            sum_item += poi.quantity
+            sum_items += poi.quantity
 
         if sum_items + quantity > purchase_order_quantity:
             raise QuantityException('Você somente pode adicionar mais {} itens'.format(
