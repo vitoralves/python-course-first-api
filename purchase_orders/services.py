@@ -1,6 +1,6 @@
 from flask import jsonify
 from .model import PurchaseOrderModel
-from .exceptions import QuantityException
+from exceptions.exceptions import QuantityException
 
 
 class PurchaseOrdersService:
