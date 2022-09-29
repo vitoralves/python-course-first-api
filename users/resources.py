@@ -23,10 +23,10 @@ class Base():
 class UserCreation(Resource, Base):
     def post(self):
         data = UserCreation.parser.parse_args()
-        return self.__service__.create(**data)
+        return self.__service__.create(self, **data)
 
 
 class UserLogin(Resource, Base):
     def post(self):
         data = UserCreation.parser.parse_args()
-        return self.__service__.login(**data)
+        return self.__service__.login(self, **data)

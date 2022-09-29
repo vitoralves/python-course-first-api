@@ -7,6 +7,7 @@ from db import db
 
 from purchase_orders.resources import PurchaseOrders, PurchaseOrderById
 from purchase_orders_items.resources import PurchaseOrdersItems
+from users.resources import UserCreation, UserLogin
 
 
 def create_app():
@@ -26,6 +27,8 @@ def create_app():
     api.add_resource(PurchaseOrders, '/purchase_orders')
     api.add_resource(PurchaseOrderById, '/purchase_orders/<int:id>')
     api.add_resource(PurchaseOrdersItems, '/purchase_orders/<int:id>/items')
+    api.add_resource(UserCreation, '/users')
+    api.add_resource(UserLogin, '/login')
 
     @app.before_first_request
     def create_tables():
