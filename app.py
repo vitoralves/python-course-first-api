@@ -2,6 +2,7 @@ import os
 from flask import Flask
 from flask_restful import Api
 from flask_migrate import Migrate
+from flask_jwt_extended import JWTManager
 from db import db
 
 from purchase_orders.resources import PurchaseOrders, PurchaseOrderById
@@ -14,10 +15,13 @@ def create_app():
 
     app.config['SQLALCHEMY_DATABASE_URI'] = os.environ['DB_URI']
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+    app.config['JWT_SECRET_KEY'] = os.environ['JWT_SECRET_KEY']
 
     db.init_app(app)
 
     Migrate(app, db)
+
+    JWTManager(app)
 
     api.add_resource(PurchaseOrders, '/purchase_orders')
     api.add_resource(PurchaseOrderById, '/purchase_orders/<int:id>')
