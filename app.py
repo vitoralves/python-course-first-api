@@ -22,13 +22,27 @@ def create_app():
 
     Migrate(app, db)
 
-    JWTManager(app)
+    jwt = JWTManager(app)
 
     api.add_resource(PurchaseOrders, '/purchase_orders')
     api.add_resource(PurchaseOrderById, '/purchase_orders/<int:id>')
     api.add_resource(PurchaseOrdersItems, '/purchase_orders/<int:id>/items')
     api.add_resource(UserCreation, '/users')
     api.add_resource(UserLogin, '/login')
+
+    @jwt.invalid_token_loader
+    def invalid_jwt(error):
+        return (
+            {"message": "Token de acesso inválido"},
+            401
+        )
+
+    @jwt.unauthorized_loader
+    def unauthorized_jwt(error):
+        return (
+            {"message": "Sem autorização, por favor informe um token válido"},
+            401
+        )
 
     @app.before_first_request
     def create_tables():
